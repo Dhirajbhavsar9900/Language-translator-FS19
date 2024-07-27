@@ -1,24 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Language from "./../../Data/Lang";
 import Output from "./Output";
 import TranslateIcon from "@mui/icons-material/Translate";
+import axios from "axios";
 
 function Input() {
   const [langInput, setLangInput] = useState("en");
   const [text, setText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleReset = () => {
     setLangInput("en");
     setText("");
     setTranslatedText("");
+    setError(""); // Clear any previous error messages
   };
 
-  const handleTranslate = () => {
-    const newTranslatedText = `${text}`;
-    setTranslatedText(newTranslatedText);
+  const handleTranslate = async () => {
+    setLoading(true);
+    setError(""); // Clear any previous error messages
+    try {
+      const response = await axios.post(
+        "https://text-translator2.p.rapidapi.com/translate",
+        {
+          source: langInput,
+          target: "es", // Change target language as needed
+          text: text,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-rapidapi-key": "bf277ce926msh9ffd08406955d68p1cfad4jsn8384d08f54c0", // Replace with your actual API key
+            "x-rapidapi-host": "text-translator2.p.rapidapi.com",
+          },
+        }
+      );
+      console.log(response);
+      setTranslatedText(response.data.translatedText);
+    } catch (error) {
+      setError("Error translating text. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
-  
+
+  useEffect(() => {
+    // Add any initialization logic if needed
+  }, []);
+
   return (
     <>
       <div className="border-2 border-black bg-blue-700 rounded-lg">
@@ -48,21 +79,25 @@ function Input() {
             name="input-text"
             id="input-textarea"
             aria-label="Input text"
-          ></textarea>
+          />
         </div>
         <div className="m-5 flex justify-between">
           <button
-            className="bg-green-600 hover:bg-red-500 duration-150 px-5 py-3 rounded-xl shadow-xl text-white font-semibold"
+            className={`bg-green-600 hover:bg-green-700 duration-150 px-5 py-3 rounded-xl shadow-xl text-white font-semibold ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={handleTranslate}
+            disabled={loading}
           >
-            <span>Translate</span>
+            {loading ? "Translating..." : "Translate"}
           </button>
           <button
-            className="bg-red-600 hover:bg-green-500 duration-150 px-5 py-3 rounded-xl shadow-xl text-white font-semibold"
+            className="bg-red-600 hover:bg-red-700 duration-150 px-5 py-3 rounded-xl shadow-xl text-white font-semibold"
             onClick={handleReset}
           >
             <span>Reset</span>
           </button>
+        </div>
+        <div className=" bg-white m-6">
+        {error && <p className="text-black font-Kanit p-3 text-center">{error}</p>}
         </div>
       </div>
       <TranslateIcon style={{ width: 100, height: 60 }} />
