@@ -1,7 +1,5 @@
 import React from 'react'
 import Intput from './Components/InputLaguage/Intput'
-import Output from './Components/OutputLanguage/Output'
-import TranslateIcon from '@mui/icons-material/Translate';
 function App() {
   return (
     <>
@@ -11,8 +9,7 @@ function App() {
         </div>
         <div className='flex items-center justify-center '>
         <Intput />
-        <TranslateIcon style={{width:100, height:60}} />
-        <Output />
+      
         </div>
     </div>
     </>
