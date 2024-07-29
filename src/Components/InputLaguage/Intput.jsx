@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Language from "./../../Data/Lang";
 import Output from "./Output";
 import TranslateIcon from "@mui/icons-material/Translate";
@@ -15,24 +15,24 @@ function Input() {
     setLangInput("en");
     setText("");
     setTranslatedText("");
-    setError(""); // Clear any previous error messages
+    setError(""); 
   };
 
   const handleTranslate = async () => {
     setLoading(true);
-    setError(""); // Clear any previous error messages
+    setError(""); 
     try {
       const response = await axios.post(
         "https://text-translator2.p.rapidapi.com/translate",
         {
           source: langInput,
-          target: "es", // Change target language as needed
+          target: "es", 
           text: text,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            "x-rapidapi-key": "bf277ce926msh9ffd08406955d68p1cfad4jsn8384d08f54c0", // Replace with your actual API key
+            "x-rapidapi-key": "bf277ce926msh9ffd08406955d68p1cfad4jsn8384d08f54c0",
             "x-rapidapi-host": "text-translator2.p.rapidapi.com",
           },
         }
@@ -46,9 +46,9 @@ function Input() {
     }
   };
 
-  useEffect(() => {
-    // Add any initialization logic if needed
-  }, []);
+  // useEffect(() => {
+   
+  // }, []);
 
   return (
     <>

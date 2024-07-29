@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Output({ translatedText }) {
+function Output({text}) {
   return (
     <div className='border-2 border-black bg-red-700 rounded-lg'>
       <div className='flex flex-col items-center justify-center'>
@@ -10,7 +10,7 @@ function Output({ translatedText }) {
           name="output-text"
           id="output-textarea"
           placeholder="Translation will appear here"
-          value={translatedText || ''}
+          value={text}
           readOnly
           aria-label="Translated text"
         />
